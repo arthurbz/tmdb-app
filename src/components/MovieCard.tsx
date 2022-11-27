@@ -4,7 +4,7 @@ import { View, Modal, Text, Image, StyleSheet, TouchableOpacity } from "react-na
 import Movie from "../types/Movie"
 import MovieInfoModal from "./MovieInfoModal"
 
-function MovieCard({ movie }: { movie: Movie }) {
+function MovieCard({ movie, height, width }: { movie: Movie, height: number, width: number }) {
     const imageSrc = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     const [visible, setVisible] = useState(false)
 
@@ -26,8 +26,11 @@ function MovieCard({ movie }: { movie: Movie }) {
             <TouchableOpacity onPress={openModal}>
                 <View style={styles.movieCard}>
                     {movie.poster_path
-                        ? <Image style={styles.image} source={{ uri: imageSrc }} />
-                        : <View style={styles.viewAlt}>
+                        ? <Image
+                            style={{ height, width, ...styles.image }}
+                            source={{ uri: imageSrc }}
+                        />
+                        : <View style={{ height, width, ...styles.viewAlt }}>
                             <Text style={styles.textAlt}>{movie.title}</Text>
                         </View>
                     }
@@ -45,8 +48,6 @@ const styles = StyleSheet.create({
         color: "white"
     },
     image: {
-        height: 350,
-        width: 245,
         borderRadius: 10,
         borderWidth: 2,
         borderColor: "#252525",
@@ -58,8 +59,6 @@ const styles = StyleSheet.create({
         fontWeight: "400",
     },
     viewAlt: {
-        height: 350,
-        width: 245,
         padding: 2,
         borderColor: "#FFF",
         borderWidth: 4,

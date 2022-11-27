@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
-import { Foundation as FoundationIcon } from "@expo/vector-icons"
+import { Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
+import { Ionicons } from "@expo/vector-icons"
 
 import MovieCard from '../components/MovieCard'
 
 import Movie from "../types/Movie"
 
-function SearchView() {
+const tmdbLogo = require("../assets/tmdb-primary-logo.png")
+
+function SearchScreen() {
     const [movies, setMovies] = useState<Movie[]>([])
-    const [search, setSearch] = useState("baby driver")
+    const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(false)
     const controller = new AbortController()
 
@@ -58,6 +60,11 @@ function SearchView() {
         if (!search) {
             return (
                 <View style={styles.mainContentView}>
+                    <Image
+                        resizeMode="contain"
+                        source={tmdbLogo}
+                        style={{ height: 96, marginBottom: 20 }}
+                    />
                     <Text style={styles.mainContentText}>
                         Search for a movie, genre or something else...
                     </Text>
@@ -67,11 +74,18 @@ function SearchView() {
 
         if (movies.length > 0) {
             return (
-                <ScrollView>
-                    {movies.map(movie => {
-                        return <MovieCard key={movie.id} movie={movie} />
-                    })}
-                </ScrollView>
+                <View style={styles.mainContentView}>
+                    <ScrollView>
+                        {movies.map(movie => {
+                            return <MovieCard
+                                key={movie.id}
+                                movie={movie}
+                                height={350}
+                                width={245}
+                            />
+                        })}
+                    </ScrollView>
+                </View>
             )
         }
 
@@ -93,22 +107,24 @@ function SearchView() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchBox}>
-                <FoundationIcon
-                    name="magnifying-glass"
-                    size={34}
-                    color="#C1C1C1"
-                    style={{marginRight: 15}}
-                />
-                <TextInput
-                    placeholder="Search"
-                    placeholderTextColor="#C1C1C1"
-                    value={search}
-                    onChangeText={setSearch}
-                    style={styles.searchField}
-                />
+            <View style={{ bottom: "8%", marginTop: 60 }}>
+                <View style={styles.searchBox}>
+                    <Ionicons
+                        name="ios-search-sharp"
+                        size={34}
+                        color="#C1C1C1"
+                        style={{ marginRight: 15 }}
+                    />
+                    <TextInput
+                        placeholder="Search"
+                        placeholderTextColor="#C1C1C1"
+                        value={search}
+                        onChangeText={setSearch}
+                        style={styles.searchField}
+                    />
+                </View>
+                {mainContent()}
             </View>
-            {mainContent()}
         </View>
     )
 }
@@ -117,11 +133,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#000",
-        alignItems: "center"
+        alignItems: "center",
     },
     searchBox: {
         flexDirection: "row",
-        width: "90%",
+        width: "75%",
         alignItems: "center",
         justifyContent: "flex-start",
         paddingHorizontal: 16,
@@ -137,8 +153,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     mainContentView: {
+        flex: 1,
         alignItems: "center",
-        marginTop: 10
+        justifyContent: "center",
+        marginTop: 10,
     },
     mainContentText: {
         fontSize: 25,
@@ -147,4 +165,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SearchView
+export default SearchScreen

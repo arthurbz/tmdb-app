@@ -19,7 +19,12 @@ function MovieInfoModal({ movie }: { movie: Movie }) {
                 }
 
                 <View style={styles.infosContainer}>
-                    <Text numberOfLines={1} ellipsizeMode="clip" style={styles.title}>
+                    <Text
+                        adjustsFontSizeToFit={true}
+                        numberOfLines={2}
+                        ellipsizeMode="clip"
+                        style={styles.title}
+                    >
                         {movie.title}
                     </Text>
 
@@ -31,7 +36,7 @@ function MovieInfoModal({ movie }: { movie: Movie }) {
                             name="like1"
                             size={12}
                             color="#C1C1C1"
-                            style={{marginRight: 2}}
+                            style={{ marginRight: 2 }}
                         />
                         <Text style={styles.subtitle}>
                             {movie.vote_average}/10
@@ -41,7 +46,7 @@ function MovieInfoModal({ movie }: { movie: Movie }) {
                         </Text>
                     </View>
 
-                    <Text style={styles.overview} numberOfLines={5}>
+                    <Text style={styles.overview} numberOfLines={4}>
                         {movie.overview}
                     </Text>
                 </View>
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#252525",
         bottom: 0,
         width: "100%",
-        height: 386,
+        height: 420,
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,
         padding: 15
@@ -66,7 +71,7 @@ const styles = StyleSheet.create({
     infosContainer: {
         marginLeft: 10,
         marginBottom: 5,
-        width: "65%"
+        width: "65%",
     },
     topRow: {
         flexDirection: "row",
@@ -93,6 +98,7 @@ const styles = StyleSheet.create({
         color: "#C1C1C1",
         fontSize: 14,
         fontWeight: "500",
+        maxHeight: 80,
     },
     image: {
         height: 182,
