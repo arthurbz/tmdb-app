@@ -16,6 +16,9 @@ Clone the repo: <br>
 Then cd into it:<br>
 `cd tmdb-app`
 
+Create a .env file with your TMDB API Key:<br>
+`echo API_KEY={API_KEY} >> .env`
+
 Install dependencies:<br>
 `npm i`
 
