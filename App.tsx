@@ -1,20 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar"
+import { SafeAreaView } from "react-native"
+import SearchView from "./src/views/SearchView"
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Hello World</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+        <>
+            <SafeAreaView style={{ flex: 1 }}>
+            <StatusBar style="inverted" />
+                <SearchView />
+            </SafeAreaView>
+        </>
+    )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
