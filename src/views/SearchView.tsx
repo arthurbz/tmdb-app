@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react"
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
+import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
+import { Foundation as FoundationIcon } from "@expo/vector-icons"
 
 import MovieCard from '../components/MovieCard'
 
 import Movie from "../types/Movie"
 
 function SearchView() {
-    const [movies, setMovies] = useState<Movie[]>()
+    const [movies, setMovies] = useState<Movie[]>([])
     const [search, setSearch] = useState("baby driver")
     const [loading, setLoading] = useState(false)
     const controller = new AbortController()
 
     useEffect(() => {
+        setLoading(true)
         if (!search) {
             setLoading(false)
             setMovies([])
             return
         }
 
-        setLoading(true)
         const timeoutSearch = setTimeout(() => {
             searchMovies()
             setLoading(false)
@@ -32,17 +33,15 @@ function SearchView() {
     }, [search])
 
     const searchMovies = () => {
-        if (search) {
-            fetch("https://api.themoviedb.org/3/search/movie?"
-                + new URLSearchParams({
-                    api_key: process.env.API_KEY,
-                    query: search,
-                }),
-                { method: "GET", signal: controller.signal })
-                .then(response => response.json())
-                .then(data => setMovies(data.results))
-                .catch()
-        }
+        fetch("https://api.themoviedb.org/3/search/movie?"
+            + new URLSearchParams({
+                api_key: process.env.API_KEY,
+                query: search,
+            }),
+            { method: "GET", signal: controller.signal })
+            .then(response => response.json())
+            .then(data => setMovies(data.results))
+            .catch()
     }
 
     const mainContent = () => {
@@ -66,7 +65,7 @@ function SearchView() {
             )
         }
 
-        if (movies?.length > 0) {
+        if (movies.length > 0) {
             return (
                 <ScrollView>
                     {movies.map(movie => {
@@ -76,7 +75,7 @@ function SearchView() {
             )
         }
 
-        if (movies?.length == 0) {
+        if (movies.length == 0) {
             return (
                 <View style={styles.mainContentView}>
                     <Text style={styles.mainContentText}>
@@ -94,13 +93,21 @@ function SearchView() {
 
     return (
         <View style={styles.container}>
-            <TextInput
-                placeholder="🔎 Search"
-                placeholderTextColor="#C1C1C1"
-                value={search}
-                onChangeText={setSearch}
-                style={styles.searchField}
-            />
+            <View style={styles.searchBox}>
+                <FoundationIcon
+                    name="magnifying-glass"
+                    size={34}
+                    color="#C1C1C1"
+                    style={{marginRight: 15}}
+                />
+                <TextInput
+                    placeholder="Search"
+                    placeholderTextColor="#C1C1C1"
+                    value={search}
+                    onChangeText={setSearch}
+                    style={styles.searchField}
+                />
+            </View>
             {mainContent()}
         </View>
     )
@@ -112,15 +119,21 @@ const styles = StyleSheet.create({
         backgroundColor: "#000",
         alignItems: "center"
     },
-    searchField: {
-        marginTop: 42,
-        marginBottom: 14,
+    searchBox: {
+        flexDirection: "row",
+        width: "90%",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        paddingHorizontal: 16,
+        marginTop: 40,
+        marginBottom: 10,
         backgroundColor: "#424242",
-        color: "#FFF",
-        height: 60,
-        width: "88%",
         borderRadius: 20,
-        paddingHorizontal: 15,
+    },
+    searchField: {
+        height: 60,
+        width: "100%",
+        color: "#FFF",
         fontSize: 18,
     },
     mainContentView: {

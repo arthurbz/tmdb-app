@@ -8,13 +8,8 @@ function MovieCard({ movie }: { movie: Movie }) {
     const imageSrc = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     const [visible, setVisible] = useState(false)
 
-    const openModal = () => {
-        setVisible(true)
-    }
-
-    const closeModal = () => {
-        setVisible(false)
-    }
+    const openModal = () => setVisible(true)
+    const closeModal = () => setVisible(false)
 
     return (
         <>
